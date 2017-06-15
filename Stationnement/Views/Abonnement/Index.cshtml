@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewBag.Title = "Abonnement";
+}
+
+<h2>Inscripvez-Vous à l'InfoLettre</h2>
+<form class="form-horizontal" method="post" action="@Url.Action("inscription")" >
+    <fieldset>
+        <legend>Inscription</legend>
+
+
+        <div class="form-group">
+            <label for="txtNom" class="col-sm-2 control-label">nom : </label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="nom" id="txtNom" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="courriel" class="col-sm-2 control-label">courriel : </label>
+            <div class="col-sm-10">
+                @*<input type="text" class="form-control" name="courriel" id="txtCourriel" />*@
+                @Html.TextBox("courriel","",new {@class= "form-control" })
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="txtAnnees" class="col-sm-2 control-label">Annees : </label>
+            <div class="col-sm-10">
+                <input type="range" name="Annees" id="txtAnnees" min="0" max="75"  onchange="range1value.value = txtAnnees.value;" />
+                <output name="range1value" for="txtAnnees">1</output>
+            </div>
+        </div>
+
+
+
+
+        <div class="form-group">
+            <label for="txtPays" class="col-sm-2 control-label">Pays : </label>
+            <div class="col-sm-10">
+                
+                @Html.DropDownList("pays",
+                    new SelectList(ViewBag.Pays), new { @class = "form-control"} )
+
+                @*<select class="form-control" name="pays" id="txtPays" >
+                    @foreach (string pays in ViewBag.Pays){
+                        <option value="@pays">@pays</option>
+                    }
+                </select>*@
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2  col-sm-10">
+                <button class="btn btn-lg pull-right">
+                   Envoyer
+                </button>
+            </div>
+        </div>
+    </fieldset>
+</form>

@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewBag.Title = "Divide";
+}
+
+<h2>Divide</h2>
+
+<form method="post">
+    @Html.TextBox("terme1")
+    <br />
+    @Html.TextBox("terme2")
+    <br />
+    <button>Divide</button>
+    <br />
+    @Model
+
+    <br /><br />
+
+    @for (int i = 0; i < 5; i++)
+    {
+       <text> @(Html.Raw(i==0 ? "<br />" : "|")) Paragraphe @i  </text>
+    }
+
+</form>
+
