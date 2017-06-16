@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Stationnement.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -31,5 +32,20 @@ namespace Stationnement.Controllers
 
             return View(result);
         }
+
+        [Route(@"blog/{annee:regex(^\d{4}$)}/{mois:regex(^\d{1,2}$)}/{jour:regex(^\d{1,2}$)}/{description}")]
+        public ActionResult Blog(int annee, int mois, int jour, string description)
+        {
+            return View(new BlogViewModel { Annee = annee, Mois = mois, Jour = jour, Description = description });
+        }
+
+
+        public string Now()
+        {
+            return $"{{ \"year\": {DateTime.Now.Year}, \"month\": {DateTime.Now.Month}, \"day\": {DateTime.Now.Day}   }}";
+
+        }
+
+
     }
 }

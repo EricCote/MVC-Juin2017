@@ -50,6 +50,7 @@ namespace Stationnement.Models
 
         public int? ProductModelID { get; set; }
 
+        [DataType(DataType.Date)]
         public DateTime SellStartDate { get; set; }
 
         public DateTime? SellEndDate { get; set; }

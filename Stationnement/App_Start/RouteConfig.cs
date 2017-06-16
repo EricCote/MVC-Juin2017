@@ -13,6 +13,15 @@ namespace Stationnement
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            //routes.MapRoute(
+            //    name:"Blog",
+            //    url:"blog/{annee}/{mois}/{jour}/{description}",
+            //    defaults: new { controller = "Math", action = "Blog" },
+            //    constraints: new { annee=@"\d{4}", mois = @"\d{1,2}", jour = @"\d{1,2}" }
+            // );
+
+            routes.MapMvcAttributeRoutes();
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

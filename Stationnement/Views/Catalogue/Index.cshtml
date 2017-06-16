@@ -9,43 +9,12 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ProductModel.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Color)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ListPrice)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr class="@(item.ListPrice < 100m ? "alert-danger" : "")">
-        <td>
-            @Html.DisplayFor(modelItem => item.ProductModel.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Color)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ListPrice)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ProductID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ProductID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ProductID })
-        </td>
-    </tr>
+<div id="miseajour">
+    @Html.Partial("_grille")
+</div>
+
+
+@section  scripts {
+     <script src="~/Scripts/Catalogue.js"></script>
 }
-
-</table>

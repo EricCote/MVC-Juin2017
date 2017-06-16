@@ -1,0 +1,9 @@
+﻿
+@{
+    ViewBag.Title = "Blog";
+}
+
+<h2>Blog : @Model.Description</h2>
+
+<p>@((new DateTime(Model.Annee, Model.Mois, Model.Jour)).ToString("D"))<p>
+

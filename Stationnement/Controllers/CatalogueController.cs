@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -14,20 +16,68 @@ namespace Stationnement.Controllers
     public class CatalogueController : Controller
     {
         // GET: Catalogue
-        public ActionResult Index()
+        public ActionResult Index(string categorie,string subcategory)
         {
-            AWContext db = new AWContext();
-            db.Database.Log = msg => Debug.Write(msg);
-            List<Product> produits = db.Products.Take(10).Include("ProductModel").ToList();
+            List<Product> produits = genererListeProduits(categorie, subcategory);
 
             return View(produits);
         }
+
+        private List<Product> genererListeProduits(string categorie,  string subcategory)
+        {
+            AWContext db = new AWContext();
+
+            if (string.IsNullOrEmpty(categorie)) subcategory = null;
+
+            List<Category> categories = db.Categories.Where(c => c.ParentCategory == null).
+                                        OrderBy(c => c.Name).ToList();
+
+            List<Category> subcategories = db.Categories.Where(c => c.ParentCategory.Name == categorie).
+                                           OrderBy(c => c.Name).ToList();
+
+            List<Product> produits = db.Products.Where(p =>
+                                     !string.IsNullOrEmpty(subcategory) ? p.Category.Name == subcategory : (
+                                     !string.IsNullOrEmpty(categorie) ? p.Category.ParentCategory.Name == categorie :
+                                     true
+                                     )).
+                                     Take(10).Include("ProductModel").ToList();
+
+            ViewBag.Cat = categories;
+            ViewBag.Sub = subcategory;
+
+            ViewBag.categorie = new SelectList(categories, "Name", "Name", categorie);
+            ViewBag.subcategory = new SelectList(subcategories, "Name", "Name", subcategory);
+            return produits;
+        }
+
+        public PartialViewResult Grille(string categorie, string subcategory)
+        {
+            List<Product> produits = genererListeProduits(categorie, subcategory);
+
+            return PartialView("_Grille", produits);
+        }
+
+
+        async public Task<ActionResult> All()
+        {
+            HttpClient client = new HttpClient();
+            HttpResponseMessage response = await client.GetAsync("http://localhost:50429/api/catalog");
+
+            List<Product> products = null;
+            if (response.IsSuccessStatusCode)
+            {
+               products = await response.Content.ReadAsAsync<List<Product>>();
+            }
+            return View(products);
+        }
+
+
 
         // GET: Catalogue/Details/5
         public ActionResult Details(int id)
         {
             AWContext db = new AWContext();
-            db.Database.Log = msg => Debug.Write(msg);
+
             Product produit = db.Products.Include("Category").
                                           Include("ProductModel").
                                           Where(p => p.ProductID==id).
